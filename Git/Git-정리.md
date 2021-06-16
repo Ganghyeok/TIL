@@ -101,3 +101,48 @@ git branch —no-merged : 현재 브랜치에 merge되지 않은 브랜치들을
 - git merge —no-ff "merge하고 싶은 브랜치" : 현재 헤드가 위치한 브랜치에 다른 브랜치를 merge한다. 단, fast-forward merge가 아니다.
 - git merge —abort : merge 취소하기.
 - git merge —continue : merge conflict를 해결하고 다시 merge 과정을 진행한다.
+
+### git rebase
+
+- [https://dongminyoon.tistory.com/9](https://dongminyoon.tistory.com/9)
+- git rebase -i [해시코드] : 이전 커밋을 수정할 수 있다.
+
+### git stash
+
+- git stash push -m "타이틀" : 내가 작업하고 있던 working 디렉토리와 스테이징 영역의 파일들을 stash에 저장한다.
+- git stash push -m "타이틀" —keep-index : 스테이징 영역의 파일은 유지하면서 stash에 파일을 저장한다.
+- git stash -u : untracked 파일까지 모두 stash에 저장한다.
+- git stash list : stash의 전체적인 내용을 확인할 수 있다.
+- git stash show [ stash ID (ex. stash@{3}) ] : 각 stash ID의 내용을 확인할 수 있다.
+git stash show [ stash ID (ex. stash@{3}) ] -p : 각 stash ID의 내용을 더 자세하게 확인할 수 있다.
+- git stash apply : stack의 가장 위에 있는 stash item이 적용된다.
+git stash apply [ stash ID ] : 특정한 ID의 stash item을 적용한다.
+- git stash pop : stack의 가장 위에 있는 stash item이 working 디렉토리로 빠져나온다.
+(그래서 stash의 목록은 그대로 유지하면서 stash item을 working 디렉토리로 가져오고 싶으면 apply를 이용하고, 하나씩 가져오면서 목록에서 제거하고 싶으면 pop을 이용한다.
+- git stash drop [ stash ID ] : 필요없는 stash item을 목록에서 삭제한다.
+git stash clear : 전체 stash item들을 목록에서 삭제한다.
+
+### git restore
+
+- git restore "파일 이름" : working 디렉토리에 존재하는 파일의 수정사항을 초기화한다.
+git restore "파일 이름" —staged "파일 이름" :  스테이징 영역의 파일을 working 디렉토리로 내린다.
+- git restore —source=HEAD~n "파일 이름" : HEAD로부터 n번째 이전의 상태로 해당 파일을 restore한다.
+
+### git reset
+
+- git reset HEAD . : 스테이징 영역에 있는 모든 파일들이 working 디렉토리로 내려온다.
+- git reset HEAD~n (= git reset HEAD~n —mixed) : 버전 히스토리에서는 커밋을 삭제하지만, 작업하고 있던 내용들은 working 디렉토리에 옮긴다.
+- git reset HEAD~n —soft : 버전 히스토리에서는 커밋을 삭제하지만, 작업하고 있던 내용들은 staging 영역으로 옮긴다.
+- git reset HEAD~n —hard : 버전 히스토리에서 커밋을 삭제하고, 작업하고 있던 내용들을 모두 삭제한다.
+
+### git reflog
+
+- git reflog : HEAD가 지금까지 가리키고 있었던 내용들을 다 기억하고 있음으로써, 내가 원하는 시점으로 돌아갈 수 있다.
+내가 지금까지 실행했던 명령어들과 그것으로 인해 변경되었던 HEAD가 가리키고 있었던 포인트까지 확인할 수 있다.
+이 log에서 돌아가고 싶은 시점의 해시코드를 복사하고, 다음과 같이 커맨드창에 입력하면 된다.
+**git reset —hard [해시코드]**
+
+### git revert
+
+- git revert [해시코드] (또는 HEAD~n) : 해당하는 커밋의 변경 사항을 삭제(취소)하는 , 다시 예전으로 돌려주는 커밋을 만든다.
+(원격 저장소에 이미 올라간 커밋들의 경우에는 reset이나 rebase를 사용하지 말고 revert를 사용하는 것이 바람직하다.)
